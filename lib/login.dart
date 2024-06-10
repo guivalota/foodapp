@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'package:foodapp/controller/login_controller.dart';
+import 'package:foodapp/homepage.dart';
 
 class LoginPage extends StatefulWidget {
    LoginPage({super.key});
@@ -9,6 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  LoginController controller = LoginController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -19,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.deepOrange,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.deepOrange, Colors.white],
             begin: Alignment.topCenter,
@@ -27,13 +31,13 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Padding(
-          padding:  EdgeInsets.all(20.0),
+          padding:  const EdgeInsets.all(20.0),
           child: Column(
             children: [
               Card(
                 elevation: 5,
                 child: Padding(
-                  padding:  EdgeInsets.all(10.0),
+                  padding:  const EdgeInsets.all(10.0),
                   child: Image.asset(
                     'assets/logo.png',
                     width: 100,
@@ -41,43 +45,44 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-               SizedBox(height: 20),
+               const SizedBox(height: 20),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
                       controller: _emailController,
-                      decoration:  InputDecoration(
+                      decoration:  const InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration:  InputDecoration(
+                      decoration:  const InputDecoration(
                         labelText: 'Senha',
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/home');
+                          //Navigator.pushReplacementNamed(context, '/home');
+                          logar();
                       },
-                      child:  Text('Entrar'),
+                      child:  const Text('Entrar'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepOrange,
                       ),
                     ),
-                     SizedBox(height: 20),
+                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/cadastrar');
                       },
-                      child:  Text('Cadastrar'),
+                      child:  const Text('Cadastrar'),
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.deepOrange,
                       ),
@@ -90,5 +95,41 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+// ignore: non_ant_identifier_names
+logar() async {
+    var retorno = await controller.logar(_emailController.text, _passwordController.text);
+    if (retorno != 0) {
+      Navigator.push(
+        context as BuildContext,
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                  users: retorno,
+                )),
+      );
+    } else {
+      return showModalBottomSheet<void>(
+        context: context as BuildContext,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: 200,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('Usuáriio/Senha invalidos'),
+                  ElevatedButton(
+                    child: Text('Fechar'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 }

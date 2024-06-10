@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key, required this.users}) :super(key: key);
 
+  final users;
   @override
-  _HomePageState createState() => _HomePageState();
+  State<StatefulWidget> createState() {
+    return _HomePageState();
+  }
 }
 
 class _HomePageState extends State<HomePage> {
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+               SizedBox(height: 20),
               Text(
                 'Bem-vindo ao Food Delivery App!',
                 style: TextStyle(
@@ -57,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    DropdownButtonFormField<String>(
+                    /*DropdownButtonFormField<String>(
                       value: _selectedProduct,
                       onChanged: (value) {
                         setState(() {
@@ -74,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                           child: Text(e),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Descrição',

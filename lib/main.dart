@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/homepage.dart';
 import 'package:foodapp/login.dart';
 import 'package:foodapp/cadastro.dart';
 
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
       routes: {
         '/cadastrar': (context) => CadastroPage(),
-        '/home': (context) => HomePage(),
       },
     );
   }
